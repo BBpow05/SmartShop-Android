@@ -4,92 +4,131 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
     android:layout_marginHorizontal="4dp"
-    android:elevation="3dp"
-    app:cardCornerRadius="12dp">
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="false"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:padding="12dp">
 
-        <!-- Hình sản phẩm -->
-        <TextView
-            android:id="@+id/txtEmoji"
-            android:layout_width="56dp"
-            android:layout_height="64dp"
-            android:gravity="center"
-            android:text="📱"
-            android:textSize="32sp"
-            android:background="#F1F5F9" />
+        <!-- HÌNH ẢNH SẢN PHẨM -->
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="112dp"
+            android:background="#F1F8F3">
 
-        <!-- Thông tin sản phẩm -->
+            <!-- Ảnh thật tải bằng Glide -->
+            <ImageView
+                android:id="@+id/imgProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                android:contentDescription="Hình ảnh sản phẩm" />
+
+            <!-- Emoji mặc định khi chưa có ảnh -->
+            <TextView
+                android:id="@+id/txtEmoji"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="📱"
+                android:textSize="36sp"
+                android:visibility="visible" />
+
+        </FrameLayout>
+
+        <!-- THÔNG TIN SẢN PHẨM -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp">
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="5dp">
 
+            <!-- Tên sản phẩm -->
             <TextView
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tên sản phẩm"
-                android:textColor="#172033"
+                android:textColor="#25332A"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:maxLines="2" />
+                android:maxLines="2"
+                android:ellipsize="end" />
 
+            <!-- Danh mục -->
             <TextView
                 android:id="@+id/txtCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Danh mục"
-                android:textColor="#64748B"
+                android:text="Điện thoại"
+                android:textColor="#78847B"
                 android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="5dp" />
 
+            <!-- Giá -->
             <TextView
                 android:id="@+id/txtPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="100.000 đ"
+                android:text="5.990.000 đ"
                 android:textColor="#15803D"
                 android:textStyle="bold"
-                android:textSize="12sp"
-                android:layout_marginTop="5dp" />
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Nút chức năng -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="9dp">
+
+                <!-- Yêu thích -->
+                <TextView
+                    android:id="@+id/btnFavorite"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="♡"
+                    android:textSize="25sp"
+                    android:textColor="#15803D"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Thêm vào yêu thích" />
+
+                <!-- Thêm vào giỏ -->
+                <Button
+                    android:id="@+id/btnAddCart"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="8dp"
+                    android:text="Thêm giỏ"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:backgroundTint="#15803D" />
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <!-- Nút yêu thích -->
-        <TextView
-            android:id="@+id/btnFavorite"
-            android:layout_width="40dp"
-            android:layout_height="44dp"
-            android:gravity="center"
-            android:text="♡"
-            android:textSize="28sp"
-            android:textColor="#64748B"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="Thêm vào yêu thích" />
-
-        <!-- Nút thêm vào giỏ hàng -->
-        <Button
-            android:id="@+id/btnAddCart"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:minWidth="0dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="Thêm"
-            android:textSize="12sp"
-            android:textAllCaps="false" />
 
     </LinearLayout>
 

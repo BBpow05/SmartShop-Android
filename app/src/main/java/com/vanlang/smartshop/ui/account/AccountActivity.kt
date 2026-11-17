@@ -1,7 +1,7 @@
-package com.vanlang.smartshop
+package com.vanlang.smartshop.ui.account
 
-import android.os.Bundle
 import android.graphics.Color
+import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button

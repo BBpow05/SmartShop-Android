@@ -1,4 +1,4 @@
-package com.vanlang.smartshop
+package com.vanlang.smartshop.ui.cart
 
 import android.os.Bundle
 import android.util.Patterns
@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.vanlang.smartshop.databinding.ActivityCheckoutBinding
+import com.vanlang.smartshop.repository.CartManager
 import java.text.NumberFormat
 import java.util.Locale
 

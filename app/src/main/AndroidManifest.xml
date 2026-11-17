@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Quyền truy cập Internet để tải ảnh sản phẩm -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,16 +13,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartShop">
+
+        <!-- Thanh toán -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.cart.CheckoutActivity"
+            android:exported="false" />
+
+        <!-- Giỏ hàng -->
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="false" />
+
+        <!-- Sản phẩm yêu thích -->
+        <activity
+            android:name=".ui.favorite.FavoriteActivity"
+            android:exported="false" />
+
+        <!-- Tài khoản -->
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:exported="false" />
+
+        <!-- Danh sách và tìm kiếm sản phẩm -->
+        <activity
+            android:name=".ui.product.ProductCatalogActivity"
+            android:exported="false" />
+
+        <!-- Chi tiết sản phẩm -->
+        <activity
+            android:name=".ui.product.ProductDetailActivity"
+            android:exported="false" />
+
+        <!-- Màn hình chính -->
+        <activity
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

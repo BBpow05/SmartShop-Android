@@ -6,96 +6,266 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
-    tools:context=".MainActivity">
+    android:background="#F5F7F5"
+    tools:context=".ui.main.MainActivity">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="SmartShop"
-        android:textColor="#15803D"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
 
-    <TextView
-        android:id="@+id/txtCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="#DCFCE7"
-        android:padding="12dp"
-        android:text="🛒 Giỏ hàng: 0"
-        android:textColor="#15803D"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/txtTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txtTitle" />
-
-    <EditText
-        android:id="@+id/edtSearch"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="#FFFFFF"
-        android:hint="Tìm kiếm sản phẩm..."
-        android:inputType="text"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SmartShop"
+                android:textColor="#166534"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Mua sắm thông minh mỗi ngày"
+                android:textColor="#64748B"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtCart"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_cart_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:minWidth="105dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="🛒 Giỏ hàng: 0"
+            android:textColor="#166534"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- ================================= -->
+    <!-- SEARCH -->
+    <!-- ================================= -->
+
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_search_modern"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⌕"
+            android:textColor="#15803D"
+            android:textSize="26sp" />
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="Tìm tên sản phẩm..."
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textColor="#0F172A"
+            android:textColorHint="#94A3B8"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <!-- ================================= -->
+    <!-- CATEGORY TITLE -->
+    <!-- ================================= -->
+
+    <TextView
+        android:id="@+id/txtCategoryHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:text="Danh mục sản phẩm"
+        android:textColor="#0F172A"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/searchContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- ================================= -->
+    <!-- CATEGORY HORIZONTAL SCROLL -->
+    <!-- ================================= -->
+
+    <HorizontalScrollView
+        android:id="@+id/categoryScroll"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="5dp"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/txtCategoryHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/categoryRow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp" />
+
+    </HorizontalScrollView>
+
+
+    <!-- ================================= -->
+    <!-- PRODUCT HEADING -->
+    <!-- ================================= -->
+
+    <LinearLayout
+        android:id="@+id/productHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/categoryScroll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Khám phá sản phẩm"
+            android:textColor="#0F172A"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá tốt mỗi ngày"
+            android:textColor="#64748B"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+
+    <!-- ================================= -->
+    <!-- PRODUCT LIST -->
+    <!-- ================================= -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProducts"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
+        android:paddingStart="16dp"
         android:paddingTop="12dp"
-        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:overScrollMode="ifContentScrolls"
+        app:layout_constraintTop_toBottomOf="@id/productHeading"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtSearch"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_product" />
+
+
+    <!-- ================================= -->
+    <!-- BOTTOM NAVIGATION -->
+    <!-- ================================= -->
 
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:background="#FFFFFF"
+        android:layout_height="68dp"
+        android:background="@drawable/bg_bottom_nav"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="⌂\nTrang chủ"
             android:textColor="#15803D"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/navFavorite"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="♡\nYêu thích"
-            android:textColor="#475569"
+            android:textColor="#64748B"
             android:textSize="12sp" />
 
         <TextView
@@ -103,9 +273,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="🛒\nGiỏ hàng"
-            android:textColor="#475569"
+            android:textColor="#64748B"
             android:textSize="12sp" />
 
         <TextView
@@ -113,9 +285,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="♙\nTài khoản"
-            android:textColor="#475569"
+            android:textColor="#64748B"
             android:textSize="12sp" />
 
     </LinearLayout>
