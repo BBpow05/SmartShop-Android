@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thông tin thanh toán"
+            android:text="Thông tin đặt hàng"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#168044"
@@ -66,7 +66,7 @@
             android:id="@+id/txtCheckoutTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tổng thanh toán: 0 đ"
+            android:text="Tổng đặt hàng: 0 đ"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#168044"
@@ -77,7 +77,7 @@
             android:id="@+id/btnConfirmPayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xác nhận thanh toán"
+            android:text="Đặt hàng"
             android:backgroundTint="#168044" />
 
         <Button

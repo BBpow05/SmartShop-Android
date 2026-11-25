@@ -1,97 +1,92 @@
 package com.vanlang.smartshop.ui.account
 
 import android.content.Intent
+import android.graphics.Color
+import com.vanlang.smartshop.ui.order.OrderHistoryActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.vanlang.smartshop.LoginActivity
-import com.vanlang.smartshop.viewmodel.AuthViewModel
 
 class AccountActivity : AppCompatActivity() {
-
-    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-
-        val user = authViewModel.getCurrentUser()
-
-        if (user == null) {
-            openLogin()
-            return
-        }
+        val padding = (24 * resources.displayMetrics.density).toInt()
 
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-            setPadding(40, 40, 40, 40)
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(padding, padding * 2, padding, padding)
+            setBackgroundColor(Color.rgb(248, 250, 252))
         }
 
         val title = TextView(this).apply {
-            text = "TÀI KHOẢN CỦA TÔI"
-            textSize = 24f
+            text = "Tài khoản của tôi"
+            textSize = 26f
+            setTextColor(Color.rgb(21, 128, 61))
             gravity = Gravity.CENTER
         }
 
-        val nameText = TextView(this).apply {
-            text = "Đang tải thông tin..."
-            textSize = 18f
-            setPadding(0, 30, 0, 12)
+        val avatar = TextView(this).apply {
+            text = "👤"
+            textSize = 64f
+            gravity = Gravity.CENTER
+            setPadding(0, padding, 0, padding)
         }
 
-        val emailText = TextView(this).apply {
-            text = "Email: ${user.email ?: ""}"
+        val name = TextView(this).apply {
+            text = "Khách hàng SmartShop"
+            textSize = 20f
+            setTextColor(Color.DKGRAY)
+            gravity = Gravity.CENTER
+        }
+
+        val email = TextView(this).apply {
+            text = "Thông tin tài khoản"
             textSize = 16f
-            setPadding(0, 12, 0, 30)
+            setTextColor(Color.GRAY)
+            gravity = Gravity.CENTER
+            setPadding(0, padding / 2, 0, padding)
         }
 
-        val logoutButton = Button(this).apply {
-            text = "Đăng xuất"
+        val btnBack = Button(this).apply {
+            text = "Quay lại cửa hàng"
+            setTextColor(Color.WHITE)
+            setBackgroundColor(Color.rgb(21, 128, 61))
+            setOnClickListener {
+                finish()
+            }
         }
 
-        layout.addView(title)
-        layout.addView(nameText)
-        layout.addView(emailText)
-        layout.addView(logoutButton)
+        layout.addView(
+            title,
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        layout.addView(avatar)
+        layout.addView(name)
+        layout.addView(email)
+        layout.addView(Button(this).apply {
+            text = "📦 Xem lịch sử đơn hàng"
+            isAllCaps = false
+            setTextColor(Color.WHITE)
+            setBackgroundColor(Color.rgb(21, 128, 61))
+            setOnClickListener {
+                startActivity(Intent(this@AccountActivity, OrderHistoryActivity::class.java))
+            }
+        }, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { bottomMargin = padding / 2 })
+        layout.addView(btnBack)
 
         setContentView(layout)
-
-        authViewModel.getUserProfile(user.uid) { profile ->
-            nameText.text =
-                "Họ tên: ${profile?.get("fullName") ?: "Chưa cập nhật"}"
-        }
-
-        authViewModel.onError = { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
-
-        logoutButton.setOnClickListener {
-            authViewModel.logout()
-
-            Toast.makeText(
-                this,
-                "Đã đăng xuất",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            openLogin()
-        }
-    }
-
-    private fun openLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-        startActivity(intent)
-        finish()
     }
 }
