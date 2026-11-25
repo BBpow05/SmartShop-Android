@@ -1,92 +1,57 @@
 package com.vanlang.smartshop.ui.favorite
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.vanlang.smartshop.adapter.ProductAdapter
-import com.vanlang.smartshop.repository.CartManager
-import com.vanlang.smartshop.repository.FavoriteManager
+import com.vanlang.smartshop.databinding.ActivityFavoriteBinding
+import com.vanlang.smartshop.repository.CartRepository
+import com.vanlang.smartshop.repository.FavoriteRepository
+import com.vanlang.smartshop.ui.product.ProductDetailActivity
 
 class FavoriteActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityFavoriteBinding
     private lateinit var adapter: ProductAdapter
-    private lateinit var emptyMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(16, 16, 16, 16)
-        }
-
-        val title = TextView(this).apply {
-            text = "❤️ Sản phẩm yêu thích"
-            textSize = 24f
-            setPadding(0, 0, 0, 16)
-        }
-
-        emptyMessage = TextView(this).apply {
-            text = "Bạn chưa có sản phẩm yêu thích."
-            textSize = 16f
-            gravity = Gravity.CENTER
-            visibility = View.GONE
-        }
-
+        supportActionBar?.hide()
+        binding = ActivityFavoriteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.btnBack.setOnClickListener { finish() }
         adapter = ProductAdapter(
             onAddCart = { product ->
-                CartManager.add(product.id)
+                CartRepository.add(product.id)
+                Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show()
             },
-            isFavorite = { product ->
-                FavoriteManager.isFavorite(product.id)
-            },
+            isFavorite = { FavoriteRepository.isFavorite(it.id) },
             onToggleFavorite = { product ->
-                FavoriteManager.toggle(product.id)
-                refreshFavorites()
+                FavoriteRepository.toggle(product.id)
+                showFavorites()
+            },
+            onProductClick = { product ->
+                startActivity(Intent(this, ProductDetailActivity::class.java).apply {
+                    putExtra(ProductDetailActivity.EXTRA_PRODUCT, product)
+                })
             }
         )
-
-        val recyclerView = RecyclerView(this).apply {
-            layoutManager = LinearLayoutManager(this@FavoriteActivity)
-            adapter = this@FavoriteActivity.adapter
-        }
-
-        root.addView(title)
-        root.addView(
-            emptyMessage,
-            LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 120
-            )
-        )
-        root.addView(
-            recyclerView,
-            LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
-            )
-        )
-
-        setContentView(root)
-        refreshFavorites()
+        binding.rvFavorites.layoutManager = LinearLayoutManager(this)
+        binding.rvFavorites.adapter = adapter
+        showFavorites()
     }
 
     override fun onResume() {
         super.onResume()
-        if (::adapter.isInitialized) {
-            refreshFavorites()
-        }
+        if (::adapter.isInitialized) showFavorites()
     }
 
-    private fun refreshFavorites() {
-        val favorites = FavoriteManager.getFavoriteProducts().toList()
+    private fun showFavorites() {
+        val favorites = FavoriteRepository.getFavoriteProducts()
         adapter.submitList(favorites)
-        emptyMessage.visibility =
-            if (favorites.isEmpty()) View.VISIBLE
-            else View.GONE
+        binding.txtFavoriteCount.text = "${favorites.size} sản phẩm"
+        binding.txtEmpty.visibility = if (favorites.isEmpty()) View.VISIBLE else View.GONE
     }
 }

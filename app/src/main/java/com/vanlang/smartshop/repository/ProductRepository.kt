@@ -260,9 +260,8 @@ object ProductRepository {
 
     fun getProductById(id: Int): Product? {
 
-        return cachedProducts.find {
-            it.id == id
-        }
+        return cachedProducts.find { it.id == id }
+            ?: sampleProducts.find { it.id == id }
     }
 
     // =====================================

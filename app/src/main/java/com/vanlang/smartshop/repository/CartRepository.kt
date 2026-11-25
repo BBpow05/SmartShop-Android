@@ -8,67 +8,44 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 object CartRepository {
-
-    private val _quantities =
-        MutableStateFlow<Map<Int, Int>>(emptyMap())
-
+    private val _quantities = MutableStateFlow<Map<Int, Int>>(emptyMap())
     val quantities = _quantities.asStateFlow()
 
+    fun restore() {
+        _quantities.value = ShopStorage.readCart()
+    }
+
+    private fun change(transform: (Map<Int, Int>) -> Map<Int, Int>) {
+        _quantities.update(transform)
+        ShopStorage.saveCart(_quantities.value)
+    }
+
     fun add(productId: Int) {
-        _quantities.update { current ->
-            current + (
-                    productId to ((current[productId] ?: 0) + 1)
-                    )
-        }
+        if (ProductRepository.getProductById(productId) == null) return
+        change { current -> current + (productId to ((current[productId] ?: 0) + 1)) }
     }
 
     fun decrease(productId: Int) {
-        _quantities.update { current ->
-
-            val quantity = current[productId] ?: return@update current
-
-            if (quantity <= 1) {
-                current - productId
-            } else {
-                current + (productId to quantity - 1)
-            }
+        change { current ->
+            val currentQuantity = current[productId] ?: return@change current
+            if (currentQuantity <= 1) current - productId
+            else current + (productId to currentQuantity - 1)
         }
     }
 
-    fun remove(productId: Int) {
-        _quantities.update { it - productId }
+    fun remove(productId: Int) = change { it - productId }
+    fun clear() = change { emptyMap() }
+
+    fun items(): List<CartItem> = quantities.value.mapNotNull { (id, quantity) ->
+        ProductRepository.getProductById(id)?.let { CartItem(it, quantity) }
     }
 
-    fun clear() {
-        _quantities.value = emptyMap()
-    }
-
-    fun observeCartItems(): Flow<List<CartItem>> {
-        return quantities.map { current ->
-
-            current.mapNotNull { (productId, quantity) ->
-
-                val product =
-                    ProductRepository.getProductById(productId)
-
-                product?.let {
-                    CartItem(it, quantity)
-                }
-            }
+    fun observeCartItems(): Flow<List<CartItem>> = quantities.map { current ->
+        current.mapNotNull { (id, quantity) ->
+            ProductRepository.getProductById(id)?.let { CartItem(it, quantity) }
         }
     }
 
-    fun totalQuantity(): Int {
-        return quantities.value.values.sum()
-    }
-
-    fun totalPrice(): Long {
-        return quantities.value.entries.sumOf { entry ->
-
-            val product =
-                ProductRepository.getProductById(entry.key)
-
-            (product?.price ?: 0L) * entry.value
-        }
-    }
+    fun totalQuantity(): Int = quantities.value.values.sum()
+    fun totalPrice(): Long = items().sumOf { it.totalPrice }
 }
