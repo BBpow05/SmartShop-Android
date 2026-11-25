@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-
-    // KSP hỗ trợ Room Database
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -11,7 +10,6 @@ android {
 
     defaultConfig {
         applicationId = "com.vanlang.smartshop"
-
         minSdk = 24
         targetSdk = 35
 
@@ -40,105 +38,48 @@ android {
 
 dependencies {
 
-    // =====================================
     // 1. ANDROIDX
-    // =====================================
-
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
 
-
-    // =====================================
     // 2. RECYCLERVIEW & CARDVIEW
-    // =====================================
-
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.cardview:cardview:1.0.0")
 
-
-    // =====================================
     // 3. GLIDE - IMAGE
-    // =====================================
-
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-
-    // =====================================
     // 4. MVVM - VIEWMODEL & LIVEDATA
-    // =====================================
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.11.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.0")
 
-    implementation(
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0"
-    )
+    // 5. COROUTINES
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
-    implementation(
-        "androidx.lifecycle:lifecycle-livedata-ktx:2.11.0"
-    )
-
-    implementation(
-        "androidx.lifecycle:lifecycle-runtime-ktx:2.11.0"
-    )
-
-
-    // =====================================
-    // 5. COROUTINES & STATEFLOW
-    // =====================================
-
-    implementation(
-        "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0"
-    )
-
-
-    // =====================================
     // 6. ROOM DATABASE
-    // =====================================
-
     val roomVersion = "2.8.5"
 
-    implementation(
-        "androidx.room:room-runtime:$roomVersion"
-    )
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
 
-    implementation(
-        "androidx.room:room-ktx:$roomVersion"
-    )
-
-    ksp(
-        "androidx.room:room-compiler:$roomVersion"
-    )
-
-    testImplementation(
-        "androidx.room:room-testing:$roomVersion"
-    )
-
-
-    // =====================================
     // 7. RETROFIT - REST API
-    // =====================================
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 
-    implementation(
-        "com.squareup.retrofit2:retrofit:3.0.0"
-    )
+    // 8. FIREBASE
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
-    implementation(
-        "com.squareup.retrofit2:converter-gson:3.0.0"
-    )
-
-
-    // =====================================
-    // 8. TEST
-    // =====================================
-
+    // 9. TEST
     testImplementation(libs.junit)
-
-    androidTestImplementation(
-        libs.androidx.espresso.core
-    )
-
-    androidTestImplementation(
-        libs.androidx.junit
-    )
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
 }
